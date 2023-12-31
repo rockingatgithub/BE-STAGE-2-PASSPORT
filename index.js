@@ -5,7 +5,17 @@ const passport = require('./config/passport-localStrategy')
 const PORT = 8000
 const app = express()
 
+
+
+
+
+
 app.use(express.json())
+
+app.use(require('cookie-parser')());
+app.use(require('express-session')({ secret: 'keyboard cat', resave: true, saveUninitialized: true }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 const JWTMiddleware = (req, res, next) => {
 
@@ -28,8 +38,6 @@ const JWTMiddleware = (req, res, next) => {
 
 
 }
-
-app.use(passport.initialize())
 
 app.use('/', require('./routes'))
 

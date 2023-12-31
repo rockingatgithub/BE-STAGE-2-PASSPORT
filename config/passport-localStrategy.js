@@ -21,4 +21,19 @@ passport.use(new passportLocalStrategy( {usernameField: 'email'},
   ));
 
 
+  passport.serializeUser(function(user, done) {
+    done(null, user.id);
+  });
+  
+  passport.deserializeUser(async function(id, done) {
+    const user = await User.findById(id)
+    if(user) {
+        done(null, user);
+    } else {
+        done(null, false)
+    }
+
+  });
+
+
 module.exports = passport
